@@ -3,120 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BotSend</title>
+    <title>BotSend - Send Discord Messages From Bots Easily</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --background-dark: #0d0d1a;
+            --background-light: #1a1a3a;
+            --primary: #6a61ff;
+            --primary-hover: #8c84ff;
+            --text-color: #e0e0e0;
+            --border-color: rgba(106, 97, 255, 0.3);
+        }
+
+        /* General Body & Animation Styles */
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: rgb(0, 0, 0);
-            color: #6a61ff;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-color);
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header & Logo */
         header {
             padding: 20px;
-            border-bottom: 2px solid #6a61ff;
+            border-bottom: 1px solid var(--border-color);
         }
-        .logo {
-            margin: 10px auto;
-            width: 220px;
-            height: 140px;
+
+        .logo img {
+            width: 180px;
+            height: auto;
+        }
+
+        /* Page Section Styles */
+        .page {
+            flex-grow: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
+            padding: 40px 20px;
+            animation: fadeIn 0.6s ease-out forwards;
         }
+
+        #page2 {
+            display: none; /* Initially hidden */
+        }
+
+        /* Content Typography */
         .title {
-            font-size: 48px;
-            margin-top: 40px;
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0;
         }
+
         .description {
             margin: 20px auto;
             max-width: 600px;
-            border-top: 2px solid #6a61ff;;
-            border-bottom: 2px solid #6a61ff;;
-            padding: 20px;
+            font-size: 18px;
+            line-height: 1.6;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 25px;
         }
-        .download-button {
-            margin-top: 40px;
-            padding: 20px;
-            display: inline-block;
-            border: 3px solid #6a61ff;;
-            font-size: 24px;
-            cursor: pointer;
-            background-color: black;
-        }
-        .page-2 {
-            display: none;
-            padding: 60px 0;
-            background-color: #0a0a2a;
-            border-top: 2px solid #6a61ff;
-            color: #6a61ff;
-            min-height: 100vh;
-        }
-        .page-2 .logo {
-            margin: 0 auto 40px auto;
-            width: 220px;
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .platform-button {
-            margin: 30px;
-            padding: 20px 40px;
+
+        /* Button Styles */
+        .btn {
+            padding: 15px 35px;
             font-size: 20px;
-            border: 2px solid #6a61ff;
-            background-color: #1a1a4d;
-            color: #6a61ff;
+            font-weight: 600;
             cursor: pointer;
             border-radius: 8px;
-            transition: background-color 0.3s, color 0.3s;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-decoration: none;
+            display: inline-block;
         }
-        .platform-button:hover {
-            background-color: #6a61ff;
-            color: black;
+
+        .btn-cta {
+            margin-top: 40px;
+            background-color: var(--primary);
+            color: var(--background-dark);
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(106, 97, 255, 0.2);
         }
+
+        .btn-cta:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(106, 97, 255, 0.4);
+        }
+
+        .platform-options {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 60px; /* Space for the back button */
+        }
+
+        .btn-platform {
+            background-color: var(--background-light);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        .btn-platform:hover {
+            background-color: var(--primary);
+            color: var(--background-dark);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .back-button-container {
+            width: 100%;
+            position: absolute; /* Changed from fixed for better flow */
+            bottom: 40px;
+            left: 0;
+        }
+
+        .btn-back {
+            background-color: transparent;
+            color: var(--primary);
+            font-size: 16px;
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-back:hover {
+            background-color: var(--primary);
+            color: var(--background-dark);
+        }
+
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">
-            <img src="https://i.imgur.com/flZ0AX7.png" alt="Logo" style="height: 100%; width: auto;" />
+            <img src="https://i.imgur.com/flZ0AX7.png" alt="BotSend Logo"/>
         </div>
     </header>
 
-    <section id="page1">
-        <div class="title">BotSend</div>
-        <div class="description">
-            <p>Do you have a discord bot you just want to send messages with? To troll your friends or just have fun? But when you search for tutorials on the internet they are all 1 HOUR LONG and do not even explain what you want? Well that is the past's problem since with BotSend you can easily send messages and files with your own discord bots!</p>
-        </div>
-        <div class="download-button">Download</div>
-    </section>
+    <main>
+        <section id="page1" class="page">
+            <h1 class="title">BotSend</h1>
+            <div class="description">
+                <p>Want to send messages or files with your Discord bot without the hassle of hour-long tutorials? With BotSend, you can easily command your bot to troll friends or have fun in just a few clicks. Simple, fast, and effective.</p>
+            </div>
+            <button class="btn btn-cta">Download Now</button>
+        </section>
 
-    <section id="page2" class="page-2">
-        <button class="platform-button" onclick="window.location.href='https://www.mediafire.com/file/iyljxniy9ib79se/botsendMAC.zip/file'">Mac Silicon</button>
-        <button class="platform-button" onclick="window.location.href='https://www.mediafire.com/file/gbozhjkidhnpya5/botsendWIN.zip/file'">Windows</button>
-        <div style="width:100%;display:flex;justify-content:center;position:fixed;bottom:40px;left:0;">
-            <button id="back-button" class="platform-button" style="margin-top:40px;">Back</button>
-        </div>
-    </section>
+        <section id="page2" class="page">
+            <div class="platform-options">
+                <a href="https://www.mediafire.com/file/iyljxniy9ib79se/botsendMAC.zip/file" class="btn btn-platform">macOS</a>
+                <a href="https://www.mediafire.com/file/gbozhjkidhnpya5/botsendWIN.zip/file" class="btn btn-platform">Windows</a>
+            </div>
+            <div class="back-button-container">
+                <button id="back-button" class="btn btn-back">Back</button>
+            </div>
+        </section>
+    </main>
 
     <script>
-        const downloadButton = document.querySelector('.download-button');
+        const downloadButton = document.querySelector('.btn-cta');
+        const backButton = document.getElementById('back-button');
         const page1 = document.getElementById('page1');
         const page2 = document.getElementById('page2');
 
         downloadButton.addEventListener('click', () => {
             page1.style.display = 'none';
-            page2.style.display = 'block';
+            page2.style.display = 'flex'; // Use flex to match CSS
         });
-        // Back button logic
-        const backButton = document.getElementById('back-button');
+
         backButton.addEventListener('click', () => {
             page2.style.display = 'none';
-            page1.style.display = 'block';
+            page1.style.display = 'flex'; // Use flex to match CSS
         });
     </script>
 
